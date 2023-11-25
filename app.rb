@@ -7,9 +7,9 @@ gemfile(true) do
 
   git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
+  # gem "sqlite3"
   # Activate the gem you are reporting the issue against.
   gem "activerecord", "7.1.2"
-  # gem "sqlite3"
   gem "pg"
 end
 
@@ -31,33 +31,39 @@ ActiveRecord::Base.establish_connection(
 
 ActiveRecord::Base.logger = Logger.new(STDOUT)
 
-module IdVerifiable
-  extend ActiveSupport::Concern
-
-  included do
-    enum id_verification_status: { unverified: 0, verified: 1 }
-  end
-end
+# module IdVerifiable
+#   extend ActiveSupport::Concern
+#
+#   included do
+#     enum id_verification_status: { unverified: 0, verified: 1 }
+#   end
+# end
 
 ActiveRecord::Schema.define do
-  create_table :users, force: true do |t|
+  create_table :users, id: :serial, force: true do |t|
     t.integer :id_verification_status, default: 0
   end
 end
 
 
 class User < ActiveRecord::Base
+  attribute :id_verification_status
   enum id_verification_status: { unverified: 0, verified: 1 }
+
+  # This not work
+  # attribute :id_verification_status, :integer
 end
 
 class BugTest < Minitest::Test
   def test_create_unverified_user
     user = User.create!
-
+    puts user.inspect
     assert_equal "unverified", user.id_verification_status
   end
   def test_create_verified_user
-    user = User.create!(id_verification_status: :verified)
+    user = User.create!
+    user.assign_attributes(id_verification_status: :verified)
+    puts user.inspect
 
     assert_equal "verified", user.id_verification_status
   end
