@@ -1,11 +1,11 @@
-version: '3.9'
+version: "3.9"
 
 services:
   database:
     image: postgres:14.7-alpine
     environment:
-      POSTGRES_HOST_AUTH_METHOD: 'trust'
-      POSTGRES_DB: 'test'
+      POSTGRES_HOST_AUTH_METHOD: "trust"
+      POSTGRES_DB: "test"
   test:
     build: .
     volumes:
@@ -13,6 +13,6 @@ services:
     depends_on:
       - database
     environment:
-      DB_HOST: 'database'
-      DB_NAME: 'test'
+      DB_HOST: "database"
+      DB_NAME: "test"
     command: ruby app.rb

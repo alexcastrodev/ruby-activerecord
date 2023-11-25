@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_11_25_130341) do
+ActiveRecord::Schema[7.1].define(version: 2023_11_25_191349) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -39,7 +39,8 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_25_130341) do
 
   create_table "users", force: :cascade do |t|
     t.string "name", null: false
-    t.integer "id_verification_status", null: false
+    t.integer "id_verification_status", default: 0, null: false
+    t.integer "discount_type", default: 0, null: false
   end
 
 end
