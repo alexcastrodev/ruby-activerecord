@@ -31,13 +31,13 @@ ActiveRecord::Base.establish_connection(
 
 ActiveRecord::Base.logger = Logger.new(STDOUT)
 
-# module IdVerifiable
-#   extend ActiveSupport::Concern
-#
-#   included do
-#     enum id_verification_status: { unverified: 0, verified: 1 }
-#   end
-# end
+module IdVerifiable
+  extend ActiveSupport::Concern
+
+  included do
+    enum id_verification_status: { unverified: 0, verified: 1 }
+  end
+end
 
 ActiveRecord::Schema.define do
   create_table :users, id: :serial, force: true do |t|
@@ -47,11 +47,8 @@ end
 
 
 class User < ActiveRecord::Base
-  attribute :id_verification_status
-  enum id_verification_status: { unverified: 0, verified: 1 }
+  include IdVerifiable
 
-  # This not work
-  # attribute :id_verification_status, :integer
 end
 
 class BugTest < Minitest::Test
