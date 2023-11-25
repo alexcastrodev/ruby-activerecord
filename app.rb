@@ -48,7 +48,6 @@ end
 
 class User < ActiveRecord::Base
   include IdVerifiable
-
 end
 
 class BugTest < Minitest::Test
